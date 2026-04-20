@@ -8,15 +8,87 @@ Een lichte interactieve kaart gebouwd met [Leaflet](https://leafletjs.com/) en O
 - `styles.css` — alle styling
 - `app.js` — alle logica (kaart, markers, zoeken, locatie)
 
-## Gebruik
+## Project draaiend krijgen
 
-Open `index.html` in een browser. Geen build-stap nodig. Voor lokale
-ontwikkeling kun je een simpele server gebruiken:
+Je hebt **geen** Node, npm of build-stap nodig. De enige vereisten:
+
+- Een moderne browser (Chrome, Firefox, Safari, Edge).
+- Een internetverbinding (Leaflet, de kaarttiles en de zoekfunctie
+  worden vanaf een CDN geladen).
+
+### Optie 1 — Repo ophalen
 
 ```bash
-python3 -m http.server 8000
-# open http://localhost:8000
+git clone https://github.com/smartjulger/interactive-map.git
+cd interactive-map
 ```
+
+Of download de ZIP via GitHub en pak hem uit.
+
+### Optie 2 — Bestanden zelf aanmaken
+
+Als je geen git gebruikt, maak dan een map aan met deze drie bestanden
+naast elkaar:
+
+```
+interactive-map/
+├── index.html
+├── styles.css
+└── app.js
+```
+
+Kopieer de inhoud van elk bestand uit deze repo. De bestanden moeten in
+dezelfde map staan, want `index.html` verwijst met relatieve paden naar
+`styles.css` en `app.js`.
+
+### Openen in de browser
+
+Er zijn twee manieren:
+
+**1. Direct openen (snelst).** Dubbelklik op `index.html` of sleep het
+bestand in een browser-tab. Dit werkt voor alle functies behalve
+mogelijk de zoekfunctie en geolocation, want sommige browsers blokkeren
+`fetch` en `navigator.geolocation` op het `file://`-protocol.
+
+**2. Via een lokale server (aanbevolen).** Start in de projectmap een
+van onderstaande servers en open daarna <http://localhost:8000> in je
+browser:
+
+```bash
+# Python 3 (bijna overal voorgeïnstalleerd)
+python3 -m http.server 8000
+
+# Node.js (als je die toch hebt)
+npx serve .
+
+# PHP
+php -S localhost:8000
+```
+
+Stop de server met `Ctrl+C`.
+
+### Verifiëren dat het werkt
+
+Je ziet een donkere header met knoppen en daaronder een kaart van
+Nederland met zeven markers (Amsterdam, Rotterdam, Den Haag, Utrecht,
+Eindhoven, Groningen, Maastricht). Klik op een marker om de popup te
+zien. Onderaan het scherm volgt een badge met de coördinaten je
+muiscursor.
+
+### Veelvoorkomende problemen
+
+- **Lege pagina / geen kaart.** Open de developer tools (F12) en
+  controleer of `styles.css` en `app.js` geladen zijn. Ze moeten naast
+  `index.html` staan.
+- **Zoeken werkt niet / geen markers bij klik.** Je hebt het bestand
+  waarschijnlijk via `file://` geopend. Gebruik een lokale server
+  (zie hierboven).
+- **Geen tiles zichtbaar.** Controleer je internetverbinding; de tiles
+  komen van `tile.openstreetmap.org`, `tile.opentopomap.org` en
+  `server.arcgisonline.com`.
+- **"Mijn locatie" werkt niet.** Browsers staan geolocation alleen toe
+  op `https://` of `http://localhost`. Via een lokale server op
+  `localhost` werkt het dus wel.
 
 ## Functies
 
